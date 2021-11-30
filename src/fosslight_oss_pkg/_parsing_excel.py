@@ -26,10 +26,14 @@ def convert_excel_to_yaml(oss_report_to_read, output_file):
             _logger.warning("Read data from :" + oss_report_to_read)
             items = read_oss_report(oss_report_to_read)
             for item in items:
-                _row_to_print.append(item.get_print_json())
-            if len(_row_to_print) > 0:
+                if item.exclude == "":
+                    for single_file in item.files:
+                        if single_file in _output_json:
+                            _output_json[single_file].append(item.get_print_json())
+                        else:
+                            _output_json[single_file] = [item.get_print_json()]
+            if len(_output_json) > 0:
                 output_file = output_file if output_file.endswith(_file_extension) else output_file + _file_extension
-                _output_json[_json_root_key] = _row_to_print
                 write_yaml_file(output_file, _output_json)
                 _logger.warning("Output: " + output_file)
         except Exception as error:

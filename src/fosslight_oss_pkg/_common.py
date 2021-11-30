@@ -106,9 +106,6 @@ class OssItem:
             json_item["comment"] = self.comment
         if self.homepage != "":
             json_item["homepage"] = self.homepage
-
-        if len(self.files) > 0:
-            json_item["file"] = self.files
         if len(self.licenses) > 0:
             json_item["license"] = self.licenses
 
